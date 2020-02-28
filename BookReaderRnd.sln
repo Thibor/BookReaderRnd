@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29728.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookReaderRnd", "BookReaderRnd.csproj", "{CF256584-01C2-442E-A171-8A6D87D3CA42}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CF256584-01C2-442E-A171-8A6D87D3CA42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF256584-01C2-442E-A171-8A6D87D3CA42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF256584-01C2-442E-A171-8A6D87D3CA42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF256584-01C2-442E-A171-8A6D87D3CA42}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FB30ADFE-6EF6-442D-B101-C073B003E6E0}
+	EndGlobalSection
+EndGlobal
