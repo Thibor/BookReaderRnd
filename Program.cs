@@ -38,6 +38,9 @@ namespace BookReaderRnd
 					myProcess.StandardInput.WriteLine(msg);
 				switch (Uci.command)
 				{
+					case "ucinewgame":
+						Chess.target = 0;
+						break;
 					case "position":
 						string fen = "";
 						int lo = Uci.GetIndex("fen", 0);
@@ -76,7 +79,7 @@ namespace BookReaderRnd
 						}
 						break;
 					case "go":
-						string move = Chess.Search();
+						string move = Chess.Start();
 						if (move != "")
 						{
 							Console.WriteLine("info string book");

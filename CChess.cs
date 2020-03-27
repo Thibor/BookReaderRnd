@@ -27,6 +27,7 @@ namespace BookReaderRnd
 		const int moveflagPromoteKnight = 0x80 << 16;
 		const int maskCastle = moveflagCastleKing | moveflagCastleQueen;
 		public int optRandom = 0;
+		public int target = 0;
 		int g_castleRights = 0xf;
 		int g_hash = 0;
 		int g_passing = 0;
@@ -667,7 +668,7 @@ namespace BookReaderRnd
 			return alpha;
 		}
 
-		int GetScore(List<int> mu, int ply, int depth, int alpha, int beta)
+		int Search(List<int> mu, int ply, int depth, int alpha, int beta)
 		{
 			int n = mu.Count;
 			int myMoves = n;
@@ -685,7 +686,7 @@ namespace BookReaderRnd
 					if (ply < depth)
 					{
 						List<int> me = GenerateAllMoves(whiteTurn);
-						osScore = -GetScore(me, ply + 1, depth, -beta, -alpha);
+						osScore = -Search(me, ply + 1, depth, -beta, -alpha);
 					}
 					else
 					{
@@ -711,14 +712,15 @@ namespace BookReaderRnd
 			return alpha;
 		}
 
-		public string Search()
+		public string Start()
 		{
 			List<int> mu = GenerateLegalMoves(whiteTurn);
 			if ((mu.Count == 0) || (g_phase < 8))
 				return "";
 			mu.Shuffle();
+			string rdFm = FormatMove(mu[0]);
 			if ((mu.Count == 1) || (g_moveNumber < 2))
-				return FormatMove(mu[0]);
+				return rdFm;
 			double dOptRan = optRandom / 100.0;
 			double dPhase = g_phase / 32.0;
 			double dRan = random.NextDouble();
@@ -726,7 +728,11 @@ namespace BookReaderRnd
 			if (dOptRan < dRan)
 				return "";
 			FillMaterial(1.0 - dOptRan);
-			GetScore(mu, 1, 3, -0xffff, 0xffff);
+			int score = Search(mu, 1, 3, -0xffff, 0xffff);
+			if (target > score)
+				target = score;
+			if (target > -dOptRan * 1000)
+				return rdFm;
 			return bsFm;
 		}
 
