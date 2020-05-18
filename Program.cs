@@ -13,7 +13,13 @@ namespace BookReaderRnd
 			CUci Uci = new CUci();
 			string engine = args.Length > 0 ? args[0] : "";
 			string arguments = args.Length > 1 ? args[1] : "";
-			Chess.optRandom = args.Length > 2 ? Convert.ToInt32(args[2]) : 0; 			
+			Chess.optRandom = args.Length > 2 ? Convert.ToInt32(args[2]) : 0;
+			if (args.Length == 1)
+			{
+				engine = "";
+				arguments = "";
+				Chess.optRandom = Convert.ToInt32(args[0]);
+			}
 			Process myProcess = new Process();
 			if (File.Exists(engine))
 			{
@@ -26,15 +32,16 @@ namespace BookReaderRnd
 			}
 			else
 			{
-				Console.WriteLine("info string missing engine");
-				Console.ReadLine();
-				return;
+				if (engine != "")
+					Console.WriteLine("info string missing engine");
+				engine = "";
 			}
+
 			while (true)
 			{
 				string msg = Console.ReadLine();
 				Uci.SetMsg(msg);
-				if (Uci.command != "go")
+				if ((Uci.command != "go") && (engine != ""))
 					myProcess.StandardInput.WriteLine(msg);
 				switch (Uci.command)
 				{
@@ -85,6 +92,8 @@ namespace BookReaderRnd
 							Console.WriteLine("info string book");
 							Console.WriteLine($"bestmove {move}");
 						}
+						else if (engine == "")
+							Console.WriteLine("enginemove");
 						else
 							myProcess.StandardInput.WriteLine(msg);
 						break;
