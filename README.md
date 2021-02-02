@@ -14,4 +14,4 @@ To use this program you need install  <a href="https://dotnet.microsoft.com/down
 -rnd 90 -ef stockfish.exe
 90 -ef stockfish.exe
 
-Run chess engine stockfish.exe with no arguments and sturp random level on 90%
+Run chess engine stockfish.exe with no arguments and setup random level on 90%
