@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace BookReaderRnd
 {
@@ -11,15 +11,37 @@ namespace BookReaderRnd
 		{
 			CChess Chess = new CChess();
 			CUci Uci = new CUci();
-			string engine = args.Length > 0 ? args[0] : "";
-			string arguments = args.Length > 1 ? args[1] : "";
-			Chess.optRandom = args.Length > 2 ? Convert.ToInt32(args[2]) : 0;
-			if (args.Length == 1)
+			string ax = "-rnd";
+			List<string> listEf = new List<string>();
+			List<string> listEa = new List<string>();
+			for (int n = 0; n < args.Length; n++)
 			{
-				engine = "";
-				arguments = "";
-				Chess.optRandom = Convert.ToInt32(args[0]);
+				string ac = args[n];
+				switch (ac)
+				{
+					case "-rnd":
+					case "-ef":
+					case "-ea":
+						ax = ac;
+						break;
+					default:
+						switch (ax)
+						{
+							case "-rnd":
+								Chess.optRandom = int.Parse(ac);
+								break;
+							case "-ef":
+								listEf.Add(ac);
+								break;
+							case "-ea":
+								listEf.Add(ac);
+								break;
+						}
+						break;
+				}
 			}
+			string engine = String.Join(" ", listEf);
+			string arguments = String.Join(" ", listEa);
 			Process myProcess = new Process();
 			if (File.Exists(engine))
 			{
