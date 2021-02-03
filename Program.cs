@@ -34,7 +34,7 @@ namespace BookReaderRnd
 								listEf.Add(ac);
 								break;
 							case "-ea":
-								listEf.Add(ac);
+								listEa.Add(ac);
 								break;
 						}
 						break;
