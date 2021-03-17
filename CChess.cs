@@ -100,7 +100,7 @@ namespace BookReaderRnd
 			bonMaterial[6] = tmpMaterial[6];
 		}
 
-		public void InitializeFromFen(string fen)
+		public void SetFen(string fen)
 		{
 			g_phase = 0;
 			for (int n = 0; n < 64; n++)
@@ -207,7 +207,10 @@ namespace BookReaderRnd
 
 		bool IsRepetition()
 		{
-			for (int n = undoIndex - 4; n >= undoIndex - g_move50; n -= 2)
+			int min = undoIndex - g_move50;
+			if (min < 0)
+				min = 0;
+			for (int n = undoIndex - 4; n >= min; n -= 2)
 				if (undoStack[n].hash == g_hash)
 				{
 					return true;
@@ -495,7 +498,7 @@ namespace BookReaderRnd
 			return result;
 		}
 
-		public int GetMoveFromString(string moveString)
+		public int UmoToEmo(string moveString)
 		{
 			List<int> moves = GenerateAllMoves(whiteTurn);
 			for (int i = 0; i < moves.Count; i++)
@@ -504,6 +507,24 @@ namespace BookReaderRnd
 					return moves[i];
 			}
 			return 0;
+		}
+
+		public bool MakeMoves(string[] moves)
+		{
+			foreach (string umo in moves)
+			{
+				int emo = UmoToEmo(umo);
+				if (emo == 0)
+					return false;
+				MakeMove(emo);
+			}
+			return true;
+		}
+
+		public bool MakeMoves(string moves)
+		{
+			string[] am = moves.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+			return MakeMoves(am);
 		}
 
 		public void MakeMove(int move)

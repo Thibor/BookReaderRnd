@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Collections.Generic;
+using NSUci;
 
 namespace BookReaderRnd
 {
@@ -71,41 +72,11 @@ namespace BookReaderRnd
 						Chess.target = 0;
 						break;
 					case "position":
-						string fen = "";
-						int lo = Uci.GetIndex("fen", 0);
-						int hi = Uci.GetIndex("moves", Uci.tokens.Length);
-						if (lo > 0)
-						{
-							if (lo > hi)
-							{
-								hi = Uci.tokens.Length;
-							}
-							for (int n = lo; n < hi; n++)
-							{
-								if (n > lo)
-								{
-									fen += ' ';
-								}
-								fen += Uci.tokens[n];
-							}
-						}
-						Chess.InitializeFromFen(fen);
-						lo = Uci.GetIndex("moves", 0);
-						hi = Uci.GetIndex("fen", Uci.tokens.Length);
-						if (lo > 0)
-						{
-							if (lo > hi)
-							{
-								hi = Uci.tokens.Length;
-							}
-							for (int n = lo; n < hi; n++)
-							{
-								string m = Uci.tokens[n];
-								Chess.MakeMove(Chess.GetMoveFromString(m));
-								if (Chess.g_move50 == 0)
-									Chess.undoIndex = 0;
-							}
-						}
+						string fen = Uci.GetValue("fen", "moves");
+						string moves = Uci.GetValue("moves", "fen");
+						Chess.SetFen(fen);
+						Chess.MakeMoves(moves);
+						Chess.undoIndex = 0;
 						break;
 					case "go":
 						string move = Chess.Start();
