@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookReaderRnd
+namespace NSExtensions
 {
 	static class CExtensions
 	{
-		private static Random rnd = new Random();
+		readonly public static Random rnd = new Random();
 
 		public static void Shuffle<T>(this IList<T> list)
 		{

@@ -2,15 +2,16 @@
 using System.Diagnostics;
 using System.IO;
 using System.Collections.Generic;
+using NSChessExt;
 using NSUci;
 
-namespace BookReaderRnd
+namespace NSProgram
 {
 	class Program
 	{
 		static void Main(string[] args)
 		{
-			CChess Chess = new CChess();
+			CChessExt Chess = new CChessExt();
 			CUci Uci = new CUci();
 			string ax = "-rnd";
 			List<string> listEf = new List<string>();
@@ -60,27 +61,22 @@ namespace BookReaderRnd
 				engine = "";
 			}
 
-			while (true)
-			{
+			do{
 				string msg = Console.ReadLine();
 				Uci.SetMsg(msg);
 				if ((Uci.command != "go") && (engine != ""))
 					myProcess.StandardInput.WriteLine(msg);
 				switch (Uci.command)
 				{
-					case "ucinewgame":
-						Chess.target = 0;
-						break;
 					case "position":
 						string fen = Uci.GetValue("fen", "moves");
 						string moves = Uci.GetValue("moves", "fen");
 						Chess.SetFen(fen);
 						Chess.MakeMoves(moves);
-						Chess.undoIndex = 0;
 						break;
 					case "go":
 						string move = Chess.Start();
-						if (move != "")
+						if (move != String.Empty)
 						{
 							Console.WriteLine("info string book");
 							Console.WriteLine($"bestmove {move}");
@@ -91,8 +87,7 @@ namespace BookReaderRnd
 							myProcess.StandardInput.WriteLine(msg);
 						break;
 				}
-			}
-
+			} while (Uci.command != "quit") ;
 
 		}
 	}
