@@ -75,7 +75,7 @@ namespace NSProgram
 						Chess.MakeMoves(moves);
 						break;
 					case "go":
-						string move = Chess.Start();
+						string move = Chess.GetMove();
 						if (move != String.Empty)
 						{
 							Console.WriteLine("info string book");
