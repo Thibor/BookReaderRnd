@@ -42,30 +42,30 @@ namespace NSProgram
 						break;
 				}
 			}
-			string engine = String.Join(" ", listEf);
-			string arguments = String.Join(" ", listEa);
-			Process myProcess = new Process();
-			if (File.Exists(engine))
+			string engineFile = String.Join(" ", listEf);
+			string engineArguments = String.Join(" ", listEa);
+			Process engineProcess = new Process();
+			if (File.Exists(engineFile))
 			{
-				myProcess.StartInfo.FileName = engine;
-				myProcess.StartInfo.WorkingDirectory = Path.GetDirectoryName(engine);
-				myProcess.StartInfo.UseShellExecute = false;
-				myProcess.StartInfo.RedirectStandardInput = true;
-				myProcess.StartInfo.Arguments = arguments;
-				myProcess.Start();
+				engineProcess.StartInfo.FileName = engineFile;
+				engineProcess.StartInfo.WorkingDirectory = Path.GetDirectoryName(engineFile);
+				engineProcess.StartInfo.UseShellExecute = false;
+				engineProcess.StartInfo.RedirectStandardInput = true;
+				engineProcess.StartInfo.Arguments = engineArguments;
+				engineProcess.Start();
 			}
 			else
 			{
-				if (engine != "")
+				if (engineFile != string.Empty)
 					Console.WriteLine("info string missing engine");
-				engine = "";
+				engineFile = String.Empty;
 			}
 
 			do{
 				string msg = Console.ReadLine();
 				Uci.SetMsg(msg);
-				if ((Uci.command != "go") && (engine != ""))
-					myProcess.StandardInput.WriteLine(msg);
+				if ((Uci.command != "go") && (engineFile != String.Empty))
+					engineProcess.StandardInput.WriteLine(msg);
 				switch (Uci.command)
 				{
 					case "position":
@@ -81,10 +81,10 @@ namespace NSProgram
 							Console.WriteLine("info string book");
 							Console.WriteLine($"bestmove {move}");
 						}
-						else if (engine == "")
+						else if (engineFile == String.Empty)
 							Console.WriteLine("enginemove");
 						else
-							myProcess.StandardInput.WriteLine(msg);
+							engineProcess.StandardInput.WriteLine(msg);
 						break;
 				}
 			} while (Uci.command != "quit") ;
